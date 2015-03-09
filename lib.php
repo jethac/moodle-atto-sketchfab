@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Atto text editor integration version file.
+ * Atto text editor Sketchfab plugin lib.
  *
  * @package    atto_sketchfab
  * @copyright  2015 Jetha Chan <jetha@moodle.com>
@@ -24,6 +24,23 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015030901;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2014110400;        // Requires this Moodle version.
-$plugin->component = 'atto_sketchfab';  // Full name of the plugin (used for diagnostics).
+/**
+ * Initialise the strings required for JS.
+ *
+ * @return void
+ */
+function atto_sketchfab_strings_for_js() {
+    global $PAGE;
+
+    // In order to prevent extra strings to be imported, comment/uncomment the characters
+    // which are enabled in the JavaScript part of this plugin.
+    $PAGE->requires->strings_for_js(
+        array(
+            'entername',
+            'enterurl',
+            'insertmodel',
+            'modeldesc'
+        ),
+        'atto_sketchfab'
+    );
+}

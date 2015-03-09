@@ -1,3 +1,5 @@
+YUI.add('moodle-atto_sketchfab-button', function (Y, NAME) {
+
 // This file is part of Moodle - http://mdl.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -216,3 +218,6 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
 
     }
 );
+
+
+}, '@VERSION@', {"requires": ["moodle-editor_atto-plugin"]});

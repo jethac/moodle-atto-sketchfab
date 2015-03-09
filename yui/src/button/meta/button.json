@@ -1,5 +1,5 @@
 {
-    "moodle-atto_rtl-button": {
+    "moodle-atto_sketchfab-button": {
         "requires": [
             "moodle-editor_atto-plugin"
         ]

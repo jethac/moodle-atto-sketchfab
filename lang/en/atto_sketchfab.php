@@ -22,5 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['entername'] = 'Enter name';
+$string['enterurl'] = 'Enter URL';
+$string['insertmodel'] = 'Insert Sketchfab model';
 $string['modeldesc'] = '{$a->modelname} by {$a->author} on {$a->sketchfab}';
 $string['pluginname'] = 'Sketchfab';
