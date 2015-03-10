@@ -1,5 +1,15 @@
 .atto_sketchfab-embed {
-
+    display: inline-block;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.125);
+    border-radius: 6px;
+}
+img.atto_sketchfab-embed-thumb {
+    display: block;
+    border-radius: 4px;
+}
+a img.atto_sketchfab-embed-thumb {
+    border: 0px none;
 }
 .atto_sketchfab-embed-desc {
     margin: 5px;

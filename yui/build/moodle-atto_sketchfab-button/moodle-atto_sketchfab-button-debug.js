@@ -49,19 +49,11 @@ var COMPONENTNAME = 'atto_sketchfab',
             '</div>' +
         '</form>',
     SKETCHFAB_HOME_URL = 'sketchfab.com',
-    IFRAME_WIDTH = 480,
-    IFRAME_HEIGHT = 300,
     TEMPLATE_EMBED = '' +
         '<div class="atto_sketchfab-embed">' +
-            '<iframe ' +
-                'width="{{mdl.width}}" ' +
-                'height="{{mdl.height}}" ' +
-                'src="{{embedUrl}}" ' +
-                'frameborder="0" ' +
-                'allowfullscreen ' +
-                'mozallowfullscreen="true" ' +
-                'webkitallowfullscreen="true" ' +
-                'onmousewheel=""></iframe>' +
+            '<a href="{{mdl.asset}}">' +
+            '<img class="atto_sketchfab-embed-thumb" src="{{thumbnail_url}}" />' +
+            '</a>' +
             '<div class="atto_sketchfab-embed-desc">' +
                 '{{{get_string "modeldesc" mdl.component modelname=mdl.asset author=mdl.profile sketchfab=mdl.svc }}}' +
             '</div>' +
@@ -181,30 +173,33 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
                                 var sfdata = Y.JSON.parse(o.responseText);
                                 sfdata.mdl = {};
                                 sfdata.mdl.component = COMPONENTNAME;
-                                sfdata.mdl.width = IFRAME_WIDTH;
-                                sfdata.mdl.height = IFRAME_HEIGHT;
 
                                 var linkmeta = '?utm_source=oembed&utm_medium=embed&utm_campaign=' + modeltoken;
 
                                 sfdata.mdl.asset =
                                     '<a href="' +
-                                    sfdata.viewerUrl + linkmeta +
+                                    sfdata.provider_url +
+                                    '/models/' +
+                                    modeltoken +
+                                    linkmeta +
                                     '" target="_blank">' +
-                                    sfdata.name +
+                                    sfdata.title +
                                     '</a>';
                                 sfdata.mdl.profile =
                                     '<a href="' +
-                                    sfdata.user.profileUrl + linkmeta +
+                                    sfdata.author_url + linkmeta +
                                     '" target="_blank">' +
-                                    sfdata.user.displayName +
+                                    sfdata.author_name +
                                     '</a>';
                                 sfdata.mdl.svc =
-                                    '<a href="https://' +
-                                    SKETCHFAB_HOME_URL + linkmeta +
-                                    '" target="_blank">Sketchfab</a>';
+                                    '<a href="' +
+                                    sfdata.provider_url + linkmeta +
+                                    '" target="_blank">' +
+                                    sfdata.provider_name +
+                                    '</a>';
 
                                 var template = Y.Handlebars.compile(TEMPLATE_EMBED);
-                                var modelhtml = Y.Node.create(template(sfdata)).getHTML();
+                                var modelhtml = Y.Node.create(template(sfdata)).get('outerHTML');
 
                                 host.insertContentAtFocusPoint(modelhtml);
                                 self.markUpdated();
