@@ -52,7 +52,7 @@ var COMPONENTNAME = 'atto_sketchfab',
     IFRAME_WIDTH = 480,
     IFRAME_HEIGHT = 300,
     TEMPLATE_EMBED = '' +
-        '<div class="sketchfab-embed">' +
+        '<div class="atto_sketchfab-embed">' +
             '<iframe ' +
                 'width="{{mdl.width}}" ' +
                 'height="{{mdl.height}}" ' +
@@ -62,7 +62,7 @@ var COMPONENTNAME = 'atto_sketchfab',
                 'mozallowfullscreen="true" ' +
                 'webkitallowfullscreen="true" ' +
                 'onmousewheel=""></iframe>' +
-            '<div class="sketchfab-embed-desc">' +
+            '<div class="atto_sketchfab-embed-desc">' +
                 '{{{get_string "modeldesc" mdl.component modelname=mdl.asset author=mdl.profile sketchfab=mdl.svc }}}' +
             '</div>' +
         '</div>';
