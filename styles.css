@@ -1,14 +1,16 @@
 .atto_sketchfab-embed {
     display: inline-block;
+    margin: 6px;
     padding: 4px;
     background: rgba(0, 0, 0, 0.125);
     border-radius: 6px;
 }
-img.atto_sketchfab-embed-thumb {
+.atto_sketchfab-embed-thumb {
     display: block;
     border-radius: 4px;
 }
-a img.atto_sketchfab-embed-thumb {
+.atto_sketchfab-embed-thumb img {
+    display: block;
     border: 0px none;
 }
 .atto_sketchfab-embed-desc {

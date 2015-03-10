@@ -51,8 +51,8 @@ var COMPONENTNAME = 'atto_sketchfab',
     SKETCHFAB_HOME_URL = 'sketchfab.com',
     TEMPLATE_EMBED = '' +
         '<div class="atto_sketchfab-embed">' +
-            '<a href="{{mdl.asset}}">' +
-            '<img class="atto_sketchfab-embed-thumb" src="{{thumbnail_url}}" />' +
+            '<a href="{{mdl.assethref}}" class="atto_sketchfab-embed-thumb">' +
+            '<img src="{{thumbnail_url}}" />' +
             '</a>' +
             '<div class="atto_sketchfab-embed-desc">' +
                 '{{{get_string "modeldesc" mdl.component modelname=mdl.asset author=mdl.profile sketchfab=mdl.svc }}}' +
@@ -159,7 +159,6 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
             var urlok = url !== '' && url.indexOf(SKETCHFAB_HOME_URL) > -1;
 
             if (urlok) {
-                host.setSelection(this._currentSelection);
 
                 var tokens = url.split('/');
                 var modeltoken = tokens[tokens.length - 1];
@@ -176,12 +175,14 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
 
                                 var linkmeta = '?utm_source=oembed&utm_medium=embed&utm_campaign=' + modeltoken;
 
-                                sfdata.mdl.asset =
-                                    '<a href="' +
-                                    sfdata.provider_url +
+                                sfdata.mdl.assethref = sfdata.provider_url +
                                     '/models/' +
                                     modeltoken +
-                                    linkmeta +
+                                    linkmeta;
+
+                                sfdata.mdl.asset =
+                                    '<a href="' +
+                                    sfdata.mdl.assethref +
                                     '" target="_blank">' +
                                     sfdata.title +
                                     '</a>';
@@ -201,6 +202,7 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
                                 var template = Y.Handlebars.compile(TEMPLATE_EMBED);
                                 var modelhtml = Y.Node.create(template(sfdata)).get('outerHTML');
 
+                                host.setSelection(self._currentSelection);
                                 host.insertContentAtFocusPoint(modelhtml);
                                 self.markUpdated();
 

@@ -3,9 +3,12 @@
 
 Combine this plugin with [moodle-filter-sketchfab-embed][3], a text filter plugin which provides options for automatically replacing these thumbnails with the embedded Sketchfab viewer.
 
+## Requirements
+* Moodle 2.x
+
 ## Quick install
 1. Put this entire directory at PATHTOMOODLE/lib/editor/atto/plugins/sketchfab
-2. Visit your site notifications page to install the new plugins.
+2. Visit your site notifications page to install the new plugin.
 3. Add the "sketchfab" plugin to the Atto toolbar.
 
 [1]: http://www.sketchfab.com/  "Sketchfab"
