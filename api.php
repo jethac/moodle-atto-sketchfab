@@ -36,7 +36,12 @@ $curl = new curl();
 
 // Build a Sketchfab embed.
 // - make a curl request to get metadata
-$metadata = $curl->get('https://api.sketchfab.com/v2/models/' . $modelid);
+$metadata = $curl->get(
+	'https://sketchfab.com/oembed',
+	array(
+		'url' => 'https://sketchfab.com/models/' . $modelid
+	)
+);
 
 header('Content-Type: application/json; charset: utf-8');
 echo $metadata;
