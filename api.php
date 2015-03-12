@@ -43,5 +43,5 @@ $metadata = $curl->get(
 	)
 );
 
-header('Content-Type: application/json; charset: utf-8');
+header('Content-Type: application/json; charset: utf-8', true, $curl->info['http_code']);
 echo $metadata;
