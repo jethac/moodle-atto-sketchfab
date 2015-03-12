@@ -50,14 +50,19 @@ var COMPONENTNAME = 'atto_sketchfab',
         '</form>',
     SKETCHFAB_HOME_URL = 'sketchfab.com',
     TEMPLATE_EMBED = '' +
-        '<div class="atto_sketchfab-embed">' +
-            '<a href="{{mdl.assethref}}" class="atto_sketchfab-embed-thumb">' +
-            '<img src="{{thumbnail_url}}" />' +
+            '<a href="{{{ mdl.assethref }}}" class="atto_sketchfab-embed-thumb">' +
+            '<img src="{{{ thumbnail_url }}}" />' +
             '</a>' +
             '<div class="atto_sketchfab-embed-desc">' +
                 '{{{get_string "modeldesc" mdl.component modelname=mdl.asset author=mdl.profile sketchfab=mdl.svc }}}' +
-            '</div>' +
-        '</div>';
+            '</div>',
+    PLACEHOLDER_CLASS = 'placeholder',
+    PLACEHOLDER_ID_TEXT = 'atto_sketchfab-embed-',
+    TEMPLATE_EMBED_PLACEHOLDER = '' +
+        '<div class="atto_sketchfab-embed ' + PLACEHOLDER_CLASS +'" id="{{ id }}">' +
+        '</div>',
+    NOTIFY_WARNING = 'warning',
+    ERROR_NOTIFY_TIMEOUT = 3000;
 
 
 Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
@@ -138,6 +143,20 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
             return this._content;
         },
 
+        _getNextAvailableId: function() {
+
+            var str = "";
+            var found = false;
+            var i = 0;
+            while (!found) {
+                str = PLACEHOLDER_ID_TEXT + (i++);
+
+                found = Y.one('#' + str) === null;
+            }
+
+            return str;
+        },
+
         /**
          * Update the model in the contenteditable.
          *
@@ -163,6 +182,14 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
                 var tokens = url.split('/');
                 var modeltoken = tokens[tokens.length - 1];
 
+                // Insert a placeholder at the focus point and then get a reference to it as a YUI Node.
+                var placeholderid = this._getNextAvailableId();
+                var templateplaceholder = Y.Handlebars.compile(TEMPLATE_EMBED_PLACEHOLDER);
+                var newnodehtml = Y.Node.create(templateplaceholder({ id: placeholderid })).get('outerHTML');
+                host.setSelection(self._currentSelection);
+                host.insertContentAtFocusPoint(newnodehtml);
+                var placeholder = Y.one('#' + placeholderid);
+
                 // Kick off a request to Sketchfab's API.
                 Y.io(
                     M.cfg.wwwroot + '/lib/editor/atto/plugins/sketchfab/api.php?modelid=' + modeltoken,
@@ -175,7 +202,7 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
 
                                 var linkmeta = '?utm_source=oembed&utm_medium=embed&utm_campaign=' + modeltoken;
 
-                                sfdata.mdl.assethref = sfdata.provider_url +
+                                sfdata.mdl.assethref = 'http://www.sketchfab.com' +
                                     '/models/' +
                                     modeltoken +
                                     linkmeta;
@@ -194,18 +221,32 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
                                     '</a>';
                                 sfdata.mdl.svc =
                                     '<a href="' +
-                                    sfdata.provider_url + linkmeta +
+                                    'http://www.sketchfab.com' + linkmeta +
                                     '" target="_blank">' +
                                     sfdata.provider_name +
                                     '</a>';
 
                                 var template = Y.Handlebars.compile(TEMPLATE_EMBED);
-                                var modelhtml = Y.Node.create(template(sfdata)).get('outerHTML');
+                                var modelhtml = Y.Node.create(template(sfdata));
 
-                                host.setSelection(self._currentSelection);
-                                host.insertContentAtFocusPoint(modelhtml);
+                                placeholder.removeClass(PLACEHOLDER_CLASS);
+                                modelhtml.appendTo(placeholder);
+
+                                self.markUpdated();
+                            },
+                            failure: function (id, o) {
+                                var sfdata = Y.JSON.parse(o.responseText);
+
+                                // Remove the placeholder.
+                                placeholder.remove(true);
                                 self.markUpdated();
 
+                                if (host === null) {
+                                    host = self.get('host');
+                                }
+
+                                host.showMessage(M.util.get_string('error', 'webservice', sfdata.detail.__all__[0]),
+                                        NOTIFY_WARNING, ERROR_NOTIFY_TIMEOUT);
                             }
                         }
                     }

@@ -43,4 +43,10 @@ function atto_sketchfab_strings_for_js() {
         ),
         'atto_sketchfab'
     );
+    $PAGE->requires->strings_for_js(
+        array(
+            'error'
+        ),
+        'webservice'
+    );
 }
