@@ -136,7 +136,7 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
             this._content = Y.Node.create(template({
                 component: COMPONENTNAME,
                 elementid: this.get('host').get('elementid'),
-                CSS: COMPONENTCSS
+                COMPONENTCSS: COMPONENTCSS
             }));
 
             this._content.one('.submit').on('click', this._setModel, this);
