@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2015040801;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2015040802;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2014051207.02;     // Requires this Moodle version.
 $plugin->component = 'atto_sketchfab';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = 'v1.02';
+$plugin->release = 'v1.03';
