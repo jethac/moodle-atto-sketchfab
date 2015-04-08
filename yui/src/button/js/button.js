@@ -31,16 +31,17 @@
  * @extends M.editor_atto.EditorPlugin
  */
 var COMPONENTNAME = 'atto_sketchfab',
-    CSS = {
+    COMPONENTCSS = {
         URLINPUT: 'atto_sketchfab_urlentry'
     },
     SELECTORS = {
-        URLINPUT: '.' + CSS.URLINPUT
+        URLINPUT: '.' + COMPONENTCSS.URLINPUT
     },
     TEMPLATE = '' +
         '<form class="atto_form">' +
             '<label for="{{elementid}}_atto_sketchfab_urlentry">{{get_string "enterurl" component}}</label>' +
-            '<input class="fullwidth {{CSS.URLINPUT}}" type="url" id="{{elementid}}_atto_sketchfab_urlentry" size="32"/><br/>' +
+            '<input class="fullwidth {{COMPONENTCSS.URLINPUT}}" type="url" ' +
+            'id="{{elementid}}_atto_sketchfab_urlentry" size="32"/><br/>' +
             '<div class="mdl-align">' +
                 '<br/>' +
                 '<button class="submit" type="submit">{{get_string "insertmodel" component}}</button>' +
@@ -133,7 +134,7 @@ Y.namespace('M.atto_sketchfab').Button = Y.Base.create(
             this._content = Y.Node.create(template({
                 component: COMPONENTNAME,
                 elementid: this.get('host').get('elementid'),
-                CSS: CSS
+                CSS: COMPONENTCSS
             }));
 
             this._content.one('.submit').on('click', this._setModel, this);
